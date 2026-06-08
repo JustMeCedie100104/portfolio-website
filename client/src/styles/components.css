@@ -1,0 +1,285 @@
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-system);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+  text-decoration: none;
+}
+
+.btn:hover {
+  text-decoration: none;
+}
+
+.btn--primary {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent);
+}
+
+.btn--primary:hover {
+  box-shadow: 0 0 24px var(--color-accent-glow);
+  transform: translateY(-1px);
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn--ghost:hover {
+  border-color: var(--color-border-accent);
+  background-color: var(--color-accent-soft);
+}
+
+.btn--sm {
+  padding: 0.5rem 1rem;
+  font-size: var(--text-xs);
+}
+
+/* Cards */
+.card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.card--hover:hover {
+  border-color: var(--color-border-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.card--flat {
+  /* Flat card with no hover effects by default */
+}
+
+.card--flat:hover {
+  border-color: var(--color-border-accent);
+}
+
+.card__title {
+  font-size: var(--text-base);
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+
+/* ──────────────────────────────────────────────────────────────
+   PORTRAIT COMPONENT: Human Presence Module
+   ────────────────────────────────────────────────────────────── */
+
+/* Base Portrait Styles */
+.portrait {
+  position: relative;
+  aspect-ratio: var(--portrait-ratio);
+  overflow: hidden;
+  border: var(--portrait-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.portrait::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at 50% 80%, var(--color-accent-glow), transparent 60%);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.portrait__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, var(--color-bg-elevated) 0%, var(--color-surface) 100%);
+  z-index: 1;
+}
+
+.portrait__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.portrait__initials {
+  font-family: var(--font-editorial);
+  font-size: var(--text-4xl);
+  color: var(--color-text-subtle);
+  user-select: none;
+}
+
+/* SYSTEM MODE A: Structured, UI Component Behavior */
+.portrait--system {
+  /* Fixed aspect ratio, bordered frame */
+}
+
+.portrait--system:hover {
+  border-color: var(--color-border-accent);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px var(--color-accent-glow);
+}
+
+/* EDITORIAL MODE B: Expressive, Can Break Grid */
+.portrait--editorial {
+  border-radius: 0;
+  border-width: 0 0 0 3px;
+  border-color: var(--color-accent);
+  aspect-ratio: 3 / 4; /* Taller ratio for editorial */
+}
+
+.portrait--editorial::before {
+  opacity: 0.3;
+}
+
+.portrait--editorial:hover {
+  transform: translateX(4px);
+  box-shadow: -8px 0 32px var(--color-accent-glow);
+}
+
+/* Size Variants */
+.portrait--large {
+  max-width: 360px;
+}
+
+.portrait--large .portrait__initials {
+  font-size: var(--text-5xl);
+}
+
+.portrait--default {
+  max-width: 280px;
+}
+
+.portrait--compact {
+  max-width: 160px;
+  aspect-ratio: 1 / 1;
+}
+
+.portrait--compact .portrait__initials {
+  font-size: var(--text-xl);
+}
+
+/* Micro Portrait (for tiny presence indicators) */
+.portrait--micro {
+  max-width: 48px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+}
+
+.portrait--micro .portrait__initials {
+  font-size: var(--text-sm);
+}
+
+.portrait--micro:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .portrait--large,
+  .portrait--default {
+    max-width: 220px;
+  }
+}
+
+/* Social links */
+.social-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.social-links__item {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.social-links__item:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.social-links__separator {
+  color: var(--color-text-subtle);
+  user-select: none;
+}
+
+/* Form */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-family: var(--font-system);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-border-accent);
+}
+
+.form-textarea {
+  min-height: 140px;
+  resize: vertical;
+}

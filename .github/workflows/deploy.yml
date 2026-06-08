@@ -1,0 +1,75 @@
+# ──────────────────────────────────────────────────────────────
+# Deploy — Production
+# Runs only on push to main after CI passes
+#
+# Frontend → Vercel (via Vercel GitHub integration — automatic)
+# Backend  → Railway (via Railway GitHub integration — automatic)
+#
+# This workflow handles the pre-deploy steps that can't be
+# configured in the platform UIs: Prisma migration.
+# ──────────────────────────────────────────────────────────────
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+# Prevent concurrent deploys — queue instead of cancel
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  # ── Run CI first ─────────────────────────────────────────────
+  ci:
+    name: CI Check
+    uses: ./.github/workflows/ci.yml
+
+  # ── Migrate production database ──────────────────────────────
+  migrate:
+    name: Run Migrations
+    runs-on: ubuntu-latest
+    needs: [ci]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install server dependencies
+        run: npm ci
+        working-directory: server
+
+      - name: Generate Prisma Client
+        run: npm run db:generate
+        working-directory: server
+
+      - name: Run database migrations
+        run: npx prisma migrate deploy --schema src/prisma/schema.prisma
+        working-directory: server
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+  # ── Summary ──────────────────────────────────────────────────
+  # Vercel and Railway deploy automatically via their GitHub
+  # integrations when this workflow completes successfully.
+  # No additional deploy steps needed here.
+  summary:
+    name: Deployment Summary
+    runs-on: ubuntu-latest
+    needs: [migrate]
+
+    steps:
+      - name: Print summary
+        run: |
+          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ CI passed" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Database migrations applied" >> $GITHUB_STEP_SUMMARY
+          echo "🚀 Vercel deploying frontend (automatic)" >> $GITHUB_STEP_SUMMARY
+          echo "🚀 Railway deploying backend (automatic)" >> $GITHUB_STEP_SUMMARY
