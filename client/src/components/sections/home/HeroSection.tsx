@@ -1,5 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { Link } from "react-router-dom";
 import { SITE } from "@/data/portfolio";
 import { ROUTES } from "@/app/router/routes";
 
@@ -79,7 +80,7 @@ const TECH_BADGES = [
 
 const STATS = [
   { value: "3+",   label: "Projects Done"  },
-  { value: "2026", label: "Graduate"        },
+  { value: "2027", label: "Graduate"        },
   { value: "5+",   label: "Technologies"   },
 ];
 
@@ -118,9 +119,9 @@ export function HeroSection() {
               <Button to={ROUTES.PROJECTS} variant="primary">
                 View Projects
               </Button>
-              <a href={ROUTES.CONTACT} className="hero__secondary-link">
+              <Link to={ROUTES.CONTACT} className="hero__secondary-link">
                 Contact Me →
-              </a>
+              </Link>
             </div>
 
             <div className="hero__stats">
