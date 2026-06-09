@@ -3,52 +3,60 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ACHIEVEMENTS } from "@/data/portfolio";
 
-// ── helpers ──────────────────────────────────────────────────
+// ── helpers ───────────────────────────────────────────────────
 
-/** Clamp a value between min and max */
-function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max);
-}
-
-/** Map distance from active card → visual transform values */
+/**
+ * Reference layout: flat cards, center card is large + fully lit,
+ * adjacent cards are visible but smaller + dimmed + shifted behind.
+ * No rotateY — cards stay upright like magazine covers.
+ */
 function getCardStyle(offset: number): React.CSSProperties {
-  const absOffset = Math.abs(offset);
+  const abs = Math.abs(offset);
 
-  // Only render up to 2 cards away; beyond that hide completely
-  if (absOffset > 2) {
-    return { opacity: 0, pointerEvents: "none", zIndex: 0 };
+  // Hide cards more than 2 steps away
+  if (abs > 2) return { opacity: 0, pointerEvents: "none", zIndex: 0 };
+
+  const sign = offset < 0 ? -1 : offset > 0 ? 1 : 0;
+
+  // Center card
+  if (offset === 0) {
+    return {
+      transform: "translateX(0) scale(1)",
+      opacity: 1,
+      zIndex: 10,
+      pointerEvents: "auto",
+      filter: "none",
+    };
   }
 
-  const sign = offset === 0 ? 0 : offset > 0 ? 1 : -1;
+  // ±1 — partially visible, shifted and scaled down
+  if (abs === 1) {
+    return {
+      transform: `translateX(${sign * 62}%) scale(0.82)`,
+      opacity: 0.65,
+      zIndex: 8,
+      pointerEvents: "auto",
+      filter: "brightness(0.55)",
+    };
+  }
 
-  const rotateY    = sign * clamp(absOffset * 45, 0, 90);   // deg — fans out
-  const translateX = sign * clamp(absOffset * 42, 0, 84);   // % — horizontal spread
-  const translateZ = -clamp(absOffset * 80, 0, 160);        // px — depth
-  const scale      = 1 - clamp(absOffset * 0.18, 0, 0.36);  // shrinks side cards
-  const opacity    = 1 - clamp(absOffset * 0.28, 0, 0.56);
-
+  // ±2 — barely visible at the edge
   return {
-    transform: `translateX(${translateX}%) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
-    opacity,
-    zIndex: 10 - absOffset,
-    pointerEvents: offset === 0 ? "auto" : "none",
+    transform: `translateX(${sign * 108}%) scale(0.68)`,
+    opacity: 0.35,
+    zIndex: 6,
+    pointerEvents: "auto",
+    filter: "brightness(0.35)",
   };
 }
 
-// ── component ────────────────────────────────────────────────
-
+// ── Component ─────────────────────────────────────────────────
 export function AchievementHighlightsSection() {
   const total = ACHIEVEMENTS.length;
   const [active, setActive] = useState(0);
 
-  const prev = useCallback(
-    () => setActive((i) => (i - 1 + total) % total),
-    [total]
-  );
-  const next = useCallback(
-    () => setActive((i) => (i + 1) % total),
-    [total]
-  );
+  const prev = useCallback(() => setActive((i) => (i - 1 + total) % total), [total]);
+  const next = useCallback(() => setActive((i) => (i + 1) % total), [total]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -60,19 +68,17 @@ export function AchievementHighlightsSection() {
     return () => window.removeEventListener("keydown", onKey);
   }, [prev, next]);
 
-  // Touch / drag support
+  // Pointer drag / swipe
   const dragStart = useRef<number | null>(null);
-
-  function onPointerDown(e: React.PointerEvent) {
-    dragStart.current = e.clientX;
-  }
-
+  function onPointerDown(e: React.PointerEvent) { dragStart.current = e.clientX; }
   function onPointerUp(e: React.PointerEvent) {
     if (dragStart.current === null) return;
     const delta = e.clientX - dragStart.current;
     if (Math.abs(delta) > 40) delta < 0 ? next() : prev();
     dragStart.current = null;
   }
+
+  const current = ACHIEVEMENTS[active];
 
   return (
     <section className="section section--system">
@@ -82,101 +88,91 @@ export function AchievementHighlightsSection() {
           title="Achievement Highlights"
           subtitle="Certifications, awards, and milestones."
         />
+      </Container>
 
-        {/* ── Coverflow stage ── */}
-        <div
-          className="coverflow"
-          onPointerDown={onPointerDown}
-          onPointerUp={onPointerUp}
-          role="region"
-          aria-label="Achievement highlights carousel"
-          aria-roledescription="carousel"
-        >
-          <div className="coverflow__track" aria-live="polite">
-            {ACHIEVEMENTS.map((item, i) => {
-              const offset = i - active;
-              const isActive = offset === 0;
-              return (
-                <article
-                  key={item.id}
-                  className={`coverflow__card${isActive ? " coverflow__card--active" : ""}`}
-                  style={getCardStyle(offset)}
-                  aria-hidden={!isActive}
-                  onClick={() => !isActive && setActive(i)}
+      {/* Stage is full-width — overflow hidden clips side cards */}
+      <div
+        className="cf2"
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        role="region"
+        aria-label="Achievement highlights carousel"
+        aria-roledescription="carousel"
+      >
+        {/* Card track */}
+        <div className="cf2__track" aria-live="polite">
+          {ACHIEVEMENTS.map((item, i) => {
+            const offset = i - active;
+            const isActive = offset === 0;
+            return (
+              <article
+                key={item.id}
+                className={`cf2__card${isActive ? " cf2__card--active" : ""}`}
+                style={getCardStyle(offset)}
+                aria-hidden={!isActive}
+                onClick={() => !isActive && setActive(i)}
+                role="button"
+                tabIndex={isActive ? 0 : -1}
+              >
+                {/* Gradient face */}
+                <div
+                  className="cf2__face"
+                  style={{ background: item.gradient }}
                 >
-                  {/* Gradient face */}
-                  <div
-                    className="coverflow__face"
-                    style={{ background: item.gradient }}
-                  >
-                    {/* Gloss overlay */}
-                    <div className="coverflow__gloss" aria-hidden="true" />
+                  {/* Gloss */}
+                  <div className="cf2__gloss" aria-hidden="true" />
 
-                    <div className="coverflow__body">
-                      <span className="coverflow__number">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <h3 className="coverflow__title">{item.title}</h3>
-                      <p className="coverflow__issuer">{item.issuer}</p>
-                    </div>
+                  <div className="cf2__body">
+                    <span className="cf2__num">{String(i + 1).padStart(2, "0")}</span>
+                    <h3 className="cf2__title">{item.title}</h3>
+                    <p className="cf2__issuer">{item.issuer}</p>
                   </div>
+                </div>
 
-                  {/* Reflection */}
-                  <div
-                    className="coverflow__reflection"
-                    style={{ background: item.gradient }}
-                    aria-hidden="true"
-                  />
-                </article>
-              );
-            })}
-          </div>
-
-          {/* Navigation controls */}
-          <div className="coverflow__controls" aria-label="Carousel controls">
-            <button
-              className="coverflow__btn"
-              onClick={prev}
-              aria-label="Previous achievement"
-            >
-              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-
-            {/* Dot indicators */}
-            <div className="coverflow__dots" role="tablist" aria-label="Go to slide">
-              {ACHIEVEMENTS.map((item, i) => (
-                <button
-                  key={item.id}
-                  className={`coverflow__dot${i === active ? " coverflow__dot--active" : ""}`}
-                  onClick={() => setActive(i)}
-                  role="tab"
-                  aria-selected={i === active}
-                  aria-label={`Achievement ${i + 1}: ${item.title}`}
+                {/* Reflection strip */}
+                <div
+                  className="cf2__reflection"
+                  style={{ background: item.gradient }}
+                  aria-hidden="true"
                 />
-              ))}
-            </div>
+              </article>
+            );
+          })}
+        </div>
 
-            <button
-              className="coverflow__btn"
-              onClick={next}
-              aria-label="Next achievement"
-            >
-              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
+        {/* Left / right arrow buttons */}
+        <button className="cf2__arrow cf2__arrow--left" onClick={prev} aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="11" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M14 7l-5 5 5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+        <button className="cf2__arrow cf2__arrow--right" onClick={next} aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="11" stroke="currentColor" strokeWidth="1.5" />
+            <path d="M10 7l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      </div>
 
-          {/* Active card label below */}
-          <div className="coverflow__label" aria-live="polite">
-            <p className="coverflow__label-title">
-              {ACHIEVEMENTS[active].title}
-            </p>
-            <p className="coverflow__label-issuer">
-              {ACHIEVEMENTS[active].issuer}
-            </p>
+      {/* Label + dots below — inside container */}
+      <Container>
+        <div className="cf2__meta" aria-live="polite">
+          <p className="cf2__meta-label">ACHIEVEMENT NO. {String(active + 1).padStart(2, "0")}</p>
+          <p className="cf2__meta-title">{current.title}</p>
+          <p className="cf2__meta-issuer">{current.issuer}</p>
+
+          <div className="cf2__dots" role="tablist">
+            {ACHIEVEMENTS.map((item, i) => (
+              <button
+                key={item.id}
+                className={`cf2__dot${i === active ? " cf2__dot--active" : ""}`}
+                onClick={() => setActive(i)}
+                role="tab"
+                aria-selected={i === active}
+                aria-label={`${item.title}`}
+              />
+            ))}
           </div>
         </div>
       </Container>

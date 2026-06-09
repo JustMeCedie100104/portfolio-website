@@ -94,21 +94,20 @@ export interface ProjectItem {
 export const PROJECTS: ProjectItem[] = [
   {
     id: "1",
-    slug: "ecommerce-platform",
-    title: "E-Commerce Platform",
+    slug: "e-commerce-platform",
+    title: "Stock N Stack",
     description:
       "Full-stack online store with cart, checkout, and admin dashboard.",
     techStack: ["React", "Node.js", "PostgreSQL"],
     category: "fullstack",
-    featured: true,
+    featured: false,
     githubUrl: "https://github.com",
-    liveUrl: "https://example.com",
     imageGradient: "linear-gradient(135deg, #1a2a4a 0%, #4f8ef7 100%)",
   },
   {
     id: "2",
     slug: "task-manager",
-    title: "Task Manager App",
+    title: "Task Manager",
     description:
       "Collaborative task board with real-time updates and team workspaces.",
     techStack: ["React", "TypeScript", "Supabase"],
@@ -120,10 +119,10 @@ export const PROJECTS: ProjectItem[] = [
   {
     id: "3",
     slug: "portfolio-cms",
-    title: "Portfolio CMS",
+    title: "Portfolio",
     description:
       "Headless CMS for managing projects, blog posts, and contact messages.",
-    techStack: ["React", "Express", "MySQL"],
+    techStack: ["React", "Express", "PostgreSQL"],
     category: "backend",
     featured: true,
     githubUrl: "https://github.com",
@@ -172,11 +171,11 @@ export const ACHIEVEMENTS = [
 ] as const;
 
 export const JOURNEY = [ 
-  { year: "2022", title: "Built First Website", description: "Created my first responsive website and deployed it online." },
-  { year: "2023", title: "Built First Website", description: "Created my first responsive website and deployed it online." },
-  { year: "2024", title: "Learned React & Node.js", description: "Transitioned to modern full-stack development." },
-  { year: "2025", title: "Developed Full Stack Apps", description: "Built production-ready applications with databases and APIs." },
-  { year: "2026", title: "Seeking Professional Role", description: "Ready to contribute to a team and grow as a developer." },
+  { year: "2022", title: "Journey Begins", description: "Created my first responsive website at Senior High." },
+  { year: "2023", title: "1st Road", description: "1st Year With an Experience since Senior High." },
+  { year: "2024", title: "2nd Coming", description: "2nd Year Become much more difficult to attain, but every struggle has been overcome." },
+  { year: "2025", title: "3rd Principles of Study", description: "Ready for Everything, Software Engineering Defense has been defended" },
+  { year: "2026", title: "OJT", description: "Experienced what tech jobs in real world." },
 ] as const;
 
 export const WHAT_I_DO = [
@@ -203,23 +202,15 @@ export const EXPERIENCE = [
     period: "2025",
     description: "Contributed to frontend features and API integrations for internal tools.",
   },
-  {
-    id: "2",
-    type: "Freelance",
-    title: "Web Developer",
-    company: "Independent",
-    period: "2024 – Present",
-    description: "Built responsive websites and web applications for small businesses.",
-  },
 ] as const;
 
 export const EDUCATION = {
   degree: "Bachelor of Science in Computer Science",
   school: "Arellano University - Jose Abad Santos Campus",
   program: "Computer Science",
-  year: "2022 – 2026",
-  courses: ["Data Structures", "Web Development", "Database Systems", "Software Engineering"],
-  achievements: ["Dean's List", "Best Capstone Project"],
+  year: "2022 – 2027",
+  courses: ["Data Structures", "Web Development", "Database Systems"],
+  achievements: ["Dean's Lister",]
 } as const;
 
 export const NAV_LINKS = [

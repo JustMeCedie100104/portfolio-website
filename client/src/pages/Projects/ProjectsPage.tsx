@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ProjectCard } from "@/components/sections/projects/ProjectCard";
 import { PROJECTS } from "@/data/portfolio";
+import { RevealSection } from "@/components/shared/RevealSection";
 
 const FILTERS = [
   { id: "all", label: "All" },
@@ -26,7 +27,7 @@ export function ProjectsPage() {
 
   return (
     <>
-      <section className="section">
+      <RevealSection variant="fade-up" as="section" className="section">
         <Container>
           <SectionHeader
             label="Projects"
@@ -34,15 +35,17 @@ export function ProjectsPage() {
             subtitle="A selection of applications I've built end to end."
             editorial
           />
-          <div className="projects-grid" style={{ marginTop: "var(--space-10)" }}>
-            {featured.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+          <div className="pcard-grid" style={{ marginTop: "var(--space-10)" }}>
+            {featured.map((project, i) => (
+              <RevealSection key={project.id} variant="fade-up" delay={i * 80}>
+                <ProjectCard project={project} />
+              </RevealSection>
             ))}
           </div>
         </Container>
-      </section>
+      </RevealSection>
 
-      <section className="section section--compact">
+      <RevealSection variant="fade-up" as="section" className="section section--compact">
         <Container>
           <SectionHeader label="Archive" title="All Projects" />
 
@@ -59,13 +62,15 @@ export function ProjectsPage() {
             ))}
           </div>
 
-          <div className="projects-grid">
-            {filtered.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+          <div className="pcard-grid">
+            {filtered.map((project, i) => (
+              <RevealSection key={project.id} variant="fade-up" delay={i * 60}>
+                <ProjectCard project={project} />
+              </RevealSection>
             ))}
           </div>
         </Container>
-      </section>
+      </RevealSection>
     </>
   );
 }
