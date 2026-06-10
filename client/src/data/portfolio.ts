@@ -20,16 +20,16 @@ export const SITE = {
 } as const;
 
 export const HERO_STATS = [
-  { num: "01", label: "Experience",  value: "1+ Year Experience"         },
+  { num: "01", label: "Year",  value: "3rd Year Student"         },
   { num: "02", label: "Status",      value: "Open to opportunities"      },
-  { num: "03", label: "Based In",    value: "Philippines — Remote Ready" },
+  { num: "03", label: "Based In",    value: "Philippines — Globally Ready" },
 ] as const;
 
 export const QUICK_INTRO = {
   title: "About Me",
   tagline: "Designer who codes. Engineer who designs. A Person who adapts to anything.",
   paragraphs: [
-    "I enjoy creating digital experiences that combine thoughtful design, strong engineering, and real-world business value.",
+    "Hi, I'm Cedie Salinas, I am studying at Arellano University.",
     "Currently focused on full-stack development, system architecture, and cloud technologies.",
     "My work sits at the intersection of clean code, scalable systems, and human-centered design—where technical excellence meets real-world impact.",
   ],

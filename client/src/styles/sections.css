@@ -81,13 +81,14 @@
   top: 0;
   z-index: 100;
   height: var(--header-height);
-  background-color: rgba(10, 11, 15, 0.75);
+  background-color: var(--navbar-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid transparent;
   transition:
     border-color var(--duration-base) var(--ease-out),
-    box-shadow   var(--duration-base) var(--ease-out);
+    box-shadow   var(--duration-base) var(--ease-out),
+    background-color 0.35s var(--ease-out);
 }
 
 .navbar--scrolled {
@@ -200,9 +201,67 @@
   transform-origin: right center;
 }
 
+/* ── Theme toggle ── */
+.navbar__theme-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.navbar__theme-toggle-track {
+  display: flex;
+  align-items: center;
+  width: 52px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 3px;
+  transition:
+    background    0.35s var(--ease-out),
+    border-color  0.25s var(--ease-out);
+  position: relative;
+}
+
+.navbar__theme-toggle:hover .navbar__theme-toggle-track {
+  border-color: var(--color-border-accent);
+  background: var(--color-surface-hover);
+}
+
+.navbar__theme-toggle-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a855f7, var(--color-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.4);
+  /* Slides right in light mode */
+  transform: translateX(0);
+  transition:
+    transform    0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background   0.35s var(--ease-out),
+    box-shadow   0.35s var(--ease-out);
+}
+
+/* In light mode the thumb slides to the right */
+html.theme-light .navbar__theme-toggle-thumb {
+  transform: translateX(24px);
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
 /* ── Desktop CTA ── */
 .navbar__cta {
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 
 /* ── Hamburger button ── */
@@ -262,7 +321,7 @@
   left: 0;
   right: 0;
   z-index: 99;
-  background-color: rgba(10, 11, 15, 0.97);
+  background-color: var(--drawer-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--color-border);
@@ -1505,7 +1564,7 @@
   z-index: 20;
   width: 48px;
   height: 48px;
-  background: rgba(10, 11, 15, 0.7);
+  background: var(--node-bg);
   border: 1px solid var(--color-border);
   border-radius: 50%;
   color: var(--color-text-muted);
@@ -1844,7 +1903,7 @@
   font-size: clamp(5rem, 10vw, 8.5rem);
   font-weight: 800;
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07);
+  -webkit-text-stroke: 1.5px var(--color-border);
   user-select: none;
   pointer-events: none;
   line-height: 1;
@@ -1857,7 +1916,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: rgba(10, 11, 15, 0.9);
+  background: var(--node-bg);
   border: 2px solid rgba(168, 85, 247, 0.6);
   display: flex;
   align-items: center;
@@ -3366,4 +3425,130 @@
   flex-wrap: wrap;
   gap: var(--space-2);
   margin-bottom: var(--space-8);
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   LIGHT MODE OVERRIDES
+   Fixes all hardcoded dark values that don't adapt via tokens
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Navbar scrolled shadow ── */
+html.theme-light .navbar--scrolled {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Hero portrait circle ── */
+html.theme-light .hero__portrait-circle {
+  background: linear-gradient(160deg, #e8eaf0 0%, #f0f2f5 100%);
+  border-color: rgba(168, 85, 247, 0.25);
+  box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.08);
+}
+
+html.theme-light .hero__portrait-placeholder {
+  background: radial-gradient(circle at 50% 40%, rgba(168,85,247,0.08), transparent 70%);
+}
+
+html.theme-light .hero__portrait-initials {
+  color: rgba(168, 85, 247, 0.45);
+}
+
+/* ── Card shadows ── */
+html.theme-light .card--hover:hover,
+html.theme-light .pcard:hover,
+html.theme-light .wid-card:hover,
+html.theme-light .qi-card:hover,
+html.theme-light .phil-card:hover,
+html.theme-light .ab-card:hover,
+html.theme-light .exp-card:hover,
+html.theme-light .jt__row:hover .jt__card {
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* ── About portrait card (ab-card) ── */
+html.theme-light .ab-card__img-wrap {
+  background: linear-gradient(160deg, #dde1ea, #eef0f4);
+}
+
+html.theme-light .ab-card__overlay {
+  background: linear-gradient(
+    to top,
+    rgba(13, 15, 20, 0.88) 0%,
+    rgba(13, 15, 20, 0.55) 55%,
+    transparent 100%
+  );
+}
+
+/* ── Coverflow achievement cards ── */
+html.theme-light .cf2__title  { color: #fff; }   /* stays white — on gradient bg */
+html.theme-light .cf2__num    { color: rgba(255, 255, 255, 0.65); }
+html.theme-light .cf2__issuer { color: rgba(255, 255, 255, 0.75); }
+
+html.theme-light .cf2__arrow {
+  background: rgba(240, 242, 245, 0.88);
+  color: var(--color-text-muted);
+}
+
+html.theme-light .cf2__meta-title { color: var(--color-text); }
+
+/* ── Journey timeline node ── */
+html.theme-light .jt__node {
+  background: rgba(240, 242, 245, 0.95);
+}
+
+/* ── Journey ghost year ── */
+html.theme-light .jt__ghost {
+  -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Exp / Education card accent border ── */
+html.theme-light .exp-card {
+  background: var(--color-surface);
+}
+
+/* ── About stats ── */
+html.theme-light .ab-stats__item {
+  background: var(--color-bg-elevated);
+}
+
+/* ── Contact orbit ring ── */
+html.theme-light .contact-orbit__ring {
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+html.theme-light .contact-orbit__node-icon {
+  background: var(--color-bg-elevated);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ── Marquee fades ── */
+html.theme-light .marquee-fade--left {
+  background: linear-gradient(90deg, var(--color-bg) 0%, transparent 100%);
+}
+
+html.theme-light .marquee-fade--right {
+  background: linear-gradient(270deg, var(--color-bg) 0%, transparent 100%);
+}
+
+/* ── Form inputs ── */
+html.theme-light .form-input,
+html.theme-light .form-textarea {
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+/* ── Backdrop ── */
+html.theme-light .navbar__backdrop {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* ── Filter bar buttons ── */
+html.theme-light .filter-bar__btn {
+  color: var(--color-text-muted);
+}
+
+/* ── Availability badge ── */
+html.theme-light .availability {
+  background-color: rgba(34, 197, 94, 0.08);
 }

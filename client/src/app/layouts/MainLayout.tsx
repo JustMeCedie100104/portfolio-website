@@ -2,12 +2,13 @@ import { Outlet, ScrollRestoration } from "react-router-dom";
 import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { ParticleBackground } from "@/components/shared/ParticleBackground";
+import { CursorGlow } from "@/components/shared/CursorGlow";
 
 export function MainLayout() {
   return (
     <div className="layout">
       <ScrollRestoration />
-      {/* Ambient rising particles — fixed behind all content */}
+      <CursorGlow />
       <ParticleBackground />
       <Navbar />
       <main>

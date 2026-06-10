@@ -60,3 +60,33 @@
   --portrait-ratio: 4 / 5;
   --portrait-border: 1px solid var(--color-border);
 }
+
+/* ── Light mode token overrides ── */
+html.theme-light {
+  --color-bg:            #f0f2f5;
+  --color-bg-elevated:   #ffffff;
+  --color-surface:       #e8ebf0;
+  --color-surface-hover: #dde1e8;
+  --color-border:        rgba(0, 0, 0, 0.1);
+  --color-border-accent: rgba(79, 142, 247, 0.5);
+  --color-text:          #0d0f14;
+  --color-text-muted:    #3d4454;
+  --color-text-subtle:   #6b7280;
+  --color-accent-soft:   rgba(79, 142, 247, 0.15);
+  --color-accent-glow:   rgba(79, 142, 247, 0.15);
+  /* Tokens for hardcoded darks */
+  --navbar-bg:           rgba(240, 242, 245, 0.88);
+  --drawer-bg:           rgba(240, 242, 245, 0.98);
+  --node-bg:             rgba(240, 242, 245, 0.95);
+  --card-shadow:         0 8px 24px rgba(0, 0, 0, 0.08);
+  --card-shadow-hover:   0 12px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(79,142,247,0.15);
+}
+
+/* Dark mode tokens (already in :root, repeat just the new ones for parity) */
+:root {
+  --navbar-bg:         rgba(10, 11, 15, 0.75);
+  --drawer-bg:         rgba(10, 11, 15, 0.97);
+  --node-bg:           rgba(10, 11, 15, 0.90);
+  --card-shadow:       0 8px 32px rgba(0, 0, 0, 0.3);
+  --card-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
