@@ -1,88 +1,11 @@
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Link } from "react-router-dom";
-import { SITE } from "@/data/portfolio";
+import { SITE, HERO_STATS } from "@/data/portfolio";
 import { ROUTES } from "@/app/router/routes";
 
-// ── Inline SVG logos ─────────────────────────────────────────
-function SupabaseLogo() {
-  return (
-    <svg viewBox="0 0 109 113" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Supabase">
-      <path
-        d="M63.7076 110.284C60.8481 113.885 55.0502 111.912 54.9813 107.314L53.9738 40.0627L99.1935 40.0627C107.384 40.0627 111.952 49.5228 106.859 55.9374L63.7076 110.284Z"
-        fill="url(#supabase_grad1)"
-      />
-      <path
-        d="M63.7076 110.284C60.8481 113.885 55.0502 111.912 54.9813 107.314L53.9738 40.0627L99.1935 40.0627C107.384 40.0627 111.952 49.5228 106.859 55.9374L63.7076 110.284Z"
-        fill="url(#supabase_grad2)"
-        fillOpacity="0.2"
-      />
-      <path
-        d="M45.317 2.07103C48.1765 -1.53037 53.9745 0.442937 54.0434 5.041L54.4849 72.2922H9.83113C1.64038 72.2922 -2.92775 62.8321 2.1655 56.4175L45.317 2.07103Z"
-        fill="#3ECF8E"
-      />
-      <defs>
-        <linearGradient id="supabase_grad1" x1="53.9738" y1="54.974" x2="94.1635" y2="71.8295" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#249361" />
-          <stop offset="1" stopColor="#3ECF8E" />
-        </linearGradient>
-        <linearGradient id="supabase_grad2" x1="36.1558" y1="30.578" x2="54.4844" y2="65.0806" gradientUnits="userSpaceOnUse">
-          <stop />
-          <stop offset="1" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-    </svg>
-  );
-}
-
-function PythonLogo() {
-  return (
-    <svg viewBox="0 0 256 255" xmlns="http://www.w3.org/2000/svg" aria-label="Python">
-      <defs>
-        <linearGradient id="py_grad1" x1="12.959%" y1="12.039%" x2="79.639%" y2="78.201%">
-          <stop offset="0%" stopColor="#387EB8" />
-          <stop offset="100%" stopColor="#366994" />
-        </linearGradient>
-        <linearGradient id="py_grad2" x1="19.128%" y1="20.579%" x2="90.742%" y2="88.429%">
-          <stop offset="0%" stopColor="#FFE052" />
-          <stop offset="100%" stopColor="#FFC331" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M126.916.072c-64.832 0-60.784 28.115-60.784 28.115l.072 29.128h61.868v8.745H41.631S.145 61.355.145 126.77c0 65.417 36.21 63.097 36.21 63.097h21.61v-30.356s-1.165-36.21 35.632-36.21h61.362s34.475.557 34.475-33.319V33.97S194.67.072 126.916.072zm-34.75 19.826a11.13 11.13 0 0 1 11.13 11.13 11.13 11.13 0 0 1-11.13 11.13 11.13 11.13 0 0 1-11.13-11.13 11.13 11.13 0 0 1 11.13-11.13z"
-        fill="url(#py_grad1)"
-      />
-      <path
-        d="M128.757 254.126c64.832 0 60.784-28.115 60.784-28.115l-.072-29.127H127.6v-8.745h86.441s41.486 4.705 41.486-60.712c0-65.416-36.21-63.096-36.21-63.096h-21.61v30.355s1.165 36.21-35.632 36.21H100.073s-34.475-.557-34.475 33.32v56.013s-5.235 33.897 63.159 33.897zm34.75-19.826a11.13 11.13 0 0 1-11.13-11.13 11.13 11.13 0 0 1 11.13-11.13 11.13 11.13 0 0 1 11.13 11.13 11.13 11.13 0 0 1-11.13 11.13z"
-        fill="url(#py_grad2)"
-      />
-    </svg>
-  );
-}
-
-function ReactLogo() {
-  return (
-    <svg viewBox="-11.5 -10.232 23 20.463" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="React">
-      <circle cx="0" cy="0" r="2.05" fill="#61DAFB" />
-      <ellipse cx="0" cy="0" rx="11" ry="4.2" stroke="#61DAFB" strokeWidth="1" fill="none" />
-      <ellipse cx="0" cy="0" rx="11" ry="4.2" stroke="#61DAFB" strokeWidth="1" fill="none" transform="rotate(60)" />
-      <ellipse cx="0" cy="0" rx="11" ry="4.2" stroke="#61DAFB" strokeWidth="1" fill="none" transform="rotate(120)" />
-    </svg>
-  );
-}
-
 // ── Data ─────────────────────────────────────────────────────
-const TECH_BADGES = [
-  { id: "supabase", logo: <SupabaseLogo />, label: "Supabase", angle: 330 },
-  { id: "python",   logo: <PythonLogo />,   label: "Python",   angle: 210 },
-  { id: "react",    logo: <ReactLogo />,    label: "React",    angle: 90  },
-];
-
-const STATS = [
-  { value: "3+",   label: "Projects Done"  },
-  { value: "2027", label: "Graduate"        },
-  { value: "5+",   label: "Technologies"   },
-];
+const STATS = HERO_STATS;
 
 // ── Scroll helper ─────────────────────────────────────────────
 function scrollToNextSection() {
@@ -105,43 +28,109 @@ export function HeroSection() {
 
           {/* LEFT — Text content */}
           <div className="hero__content reveal">
-            <p className="hero__role">{SITE.role}</p>
 
-            <h1 className="hero__headline">
-              Hello: {" "}
-              <span className="hero__headline-accent">Cedie Salinas</span>{" "}
-              is Active.
+            {/* Meta line: availability + location */}
+            <p className="hero__meta-line">
+              <span className="hero__meta-dot" aria-hidden="true" />
+              {SITE.availability} — {SITE.location}
+            </p>
+
+            {/* Display headline: two lines, mixed typography */}
+            <h1 className="hero__display">
+              <span className="hero__display-line1">Software</span>
+              <span className="hero__display-line2">Developer.</span>
             </h1>
 
-            <p className="hero__tagline">{SITE.tagline}</p>
+            {/* Personal intro tagline */}
+            <p className="hero__intro">
+              I'm {SITE.name} — {SITE.tagline}
+            </p>
 
+            {/* CTA buttons */}
             <div className="hero__actions">
-              <Button to={ROUTES.PROJECTS} variant="primary">
-                View Projects
-              </Button>
-              <Link to={ROUTES.CONTACT} className="hero__secondary-link">
+              <Link to={ROUTES.CONTACT} className="hero__btn hero__btn--primary">
                 Contact Me →
               </Link>
+              <Button to={ROUTES.PROJECTS} variant="ghost">
+                View Projects
+              </Button>
             </div>
 
+            {/* Stats */}
             <div className="hero__stats">
               {STATS.map((stat) => (
                 <div className="hero__stat" key={stat.label}>
+                  <span className="hero__stat-meta">
+                    {stat.num} · {stat.label}
+                  </span>
                   <span className="hero__stat-value">{stat.value}</span>
-                  <span className="hero__stat-label">{stat.label}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* RIGHT — Circular portrait with orbiting tech badges */}
+          {/* RIGHT — Multi-ring orbital portrait */}
           <div className="hero__visual">
-            {/* Animated gradient ring */}
-            <div className="hero__ring" aria-hidden="true">
-              <div className="hero__ring-track" />
+
+            {/* Three concentric orbital rings — each spins at a different speed */}
+            <div className="hero__orbit hero__orbit--1" aria-hidden="true">
+              <svg viewBox="0 0 200 200" className="hero__orbit-svg">
+                {/* Outer ring arc — purple→pink */}
+                <circle cx="100" cy="100" r="95"
+                  fill="none" stroke="url(#ring1_grad)" strokeWidth="1.5"
+                  strokeDasharray="440 160" strokeLinecap="round" />
+                {/* Glowing dot at arc start */}
+                <circle cx="100" cy="5" r="4" fill="white"
+                  style={{ filter: "drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px #a855f7)" }} />
+                {/* Glowing dot at arc end */}
+                <circle cx="194" cy="115" r="3" fill="white"
+                  style={{ filter: "drop-shadow(0 0 5px #fff) drop-shadow(0 0 10px #4f8ef7)" }} />
+                <defs>
+                  <linearGradient id="ring1_grad" gradientUnits="userSpaceOnUse" x1="5" y1="100" x2="195" y2="100">
+                    <stop offset="0%" stopColor="#a855f7" />
+                    <stop offset="50%" stopColor="#ec4899" />
+                    <stop offset="100%" stopColor="#4f8ef7" />
+                  </linearGradient>
+                </defs>
+              </svg>
             </div>
 
-            {/* Portrait circle */}
+            <div className="hero__orbit hero__orbit--2" aria-hidden="true">
+              <svg viewBox="0 0 200 200" className="hero__orbit-svg">
+                <circle cx="100" cy="100" r="83"
+                  fill="none" stroke="url(#ring2_grad)" strokeWidth="1"
+                  strokeDasharray="380 140" strokeLinecap="round" />
+                <circle cx="100" cy="17" r="3.5" fill="white"
+                  style={{ filter: "drop-shadow(0 0 5px #fff) drop-shadow(0 0 10px #a855f7)" }} />
+                <circle cx="30" cy="160" r="2.5" fill="white"
+                  style={{ filter: "drop-shadow(0 0 4px #fff) drop-shadow(0 0 8px #ec4899)" }} />
+                <defs>
+                  <linearGradient id="ring2_grad" gradientUnits="userSpaceOnUse" x1="17" y1="100" x2="183" y2="100">
+                    <stop offset="0%" stopColor="#7c3aed" />
+                    <stop offset="60%" stopColor="#a855f7" />
+                    <stop offset="100%" stopColor="#4f8ef7" stopOpacity="0.4" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            <div className="hero__orbit hero__orbit--3" aria-hidden="true">
+              <svg viewBox="0 0 200 200" className="hero__orbit-svg">
+                <circle cx="100" cy="100" r="71"
+                  fill="none" stroke="url(#ring3_grad)" strokeWidth="0.8"
+                  strokeDasharray="300 145" strokeLinecap="round" />
+                <circle cx="100" cy="29" r="3" fill="white"
+                  style={{ filter: "drop-shadow(0 0 4px #fff) drop-shadow(0 0 8px #4f8ef7)" }} />
+                <defs>
+                  <linearGradient id="ring3_grad" gradientUnits="userSpaceOnUse" x1="29" y1="100" x2="171" y2="100">
+                    <stop offset="0%" stopColor="#4f8ef7" />
+                    <stop offset="100%" stopColor="#a855f7" stopOpacity="0.3" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
+            {/* Portrait circle — innermost */}
             <div className="hero__portrait-circle">
               {SITE.portraitImageUrl ? (
                 <img
@@ -152,35 +141,11 @@ export function HeroSection() {
               ) : (
                 <div className="hero__portrait-placeholder" aria-hidden="true">
                   <span className="hero__portrait-initials">
-                    {SITE.name
-                      .split(" ")
-                      .map((p) => p[0])
-                      .join("")
-                      .slice(0, 2)
-                      .toUpperCase()}
+                    {SITE.name.split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase()}
                   </span>
                 </div>
               )}
             </div>
-
-            {/* Orbiting tech badge icons */}
-            {TECH_BADGES.map((badge) => {
-              const rad = (badge.angle * Math.PI) / 180;
-              const radius = 48; // % from center
-              const x = 50 + radius * Math.cos(rad);
-              const y = 50 + radius * Math.sin(rad);
-              return (
-                <div
-                  key={badge.id}
-                  className="hero__tech-badge"
-                  style={{ left: `${x}%`, top: `${y}%` }}
-                  title={badge.label}
-                  aria-label={badge.label}
-                >
-                  {badge.logo}
-                </div>
-              );
-            })}
           </div>
         </div>
       </Container>

@@ -95,65 +95,63 @@ export function ExperiencePage() {
       {/* ── EDUCATION ──────────────────────────────────────── */}
       <section className="section exp-section">
         <Container>
-          {/* Centered heading */}
           <div className="exp-heading">
             <p className="section__label">Academic</p>
             <h1 className="exp-heading__title">Education</h1>
             <p className="exp-heading__sub">My academic background.</p>
           </div>
 
-          {/* Single-entry timeline */}
           <div className="exp-timeline">
             <div className="exp-timeline__line" aria-hidden="true">
               <div className="exp-timeline__line-fill" />
             </div>
 
-            <RevealSection variant="fade-left" delay={100} className="exp-timeline__row">
-              {/* Icon node */}
-              <div
-                className="exp-timeline__icon"
-                style={{ background: "linear-gradient(135deg,#a855f7,#4f8ef7)" }}
-              >
-                <IconGradCap />
-              </div>
-
-              {/* Card */}
-              <article className="exp-card">
-                <div className="exp-card__header">
-                  <div className="exp-card__left">
-                    <h3 className="exp-card__title">{EDUCATION.degree}</h3>
-                    <p className="exp-card__company">{EDUCATION.school}</p>
-                  </div>
-                  <div className="exp-card__right">
-                    <span className="exp-card__period">{EDUCATION.year}</span>
-                    <span className="exp-card__badge">{EDUCATION.program}</span>
-                  </div>
+            {EDUCATION.map((edu, i) => (
+              <RevealSection key={edu.id} variant="fade-left" delay={i * 100} className="exp-timeline__row">
+                <div
+                  className="exp-timeline__icon"
+                  style={{ background: i % 2 === 0
+                    ? "linear-gradient(135deg,#a855f7,#4f8ef7)"
+                    : "linear-gradient(135deg,#22c55e,#06b6d4)" }}
+                >
+                  <IconGradCap />
                 </div>
 
-                {/* Courses */}
-                <div className="exp-card__section">
-                  <p className="exp-card__section-label">Relevant Courses</p>
-                  <div className="exp-card__tags">
-                    {EDUCATION.courses.map((c) => (
-                      <Badge key={c}>{c}</Badge>
-                    ))}
+                <article className="exp-card">
+                  <div className="exp-card__header">
+                    <div className="exp-card__left">
+                      <h3 className="exp-card__title">{edu.degree}</h3>
+                      <p className="exp-card__company">{edu.school}</p>
+                    </div>
+                    <div className="exp-card__right">
+                      <span className="exp-card__period">{edu.year}</span>
+                      <span className="exp-card__badge">{edu.program}</span>
+                    </div>
                   </div>
-                </div>
 
-                {/* Achievements */}
-                <div className="exp-card__section">
-                  <p className="exp-card__section-label">Achievements</p>
-                  <div className="exp-card__tags">
-                    {EDUCATION.achievements.map((a) => (
-                      <span key={a} className="exp-card__achievement">
-                        <IconStar />
-                        {a}
-                      </span>
-                    ))}
+                  <div className="exp-card__section">
+                    <p className="exp-card__section-label">Relevant Courses</p>
+                    <div className="exp-card__tags">
+                      {edu.courses.map((c) => (
+                        <Badge key={c}>{c}</Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </article>
-            </RevealSection>
+
+                  <div className="exp-card__section">
+                    <p className="exp-card__section-label">Achievements</p>
+                    <div className="exp-card__tags">
+                      {edu.achievements.map((a) => (
+                        <span key={a} className="exp-card__achievement">
+                          <IconStar />
+                          {a}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              </RevealSection>
+            ))}
           </div>
         </Container>
       </section>

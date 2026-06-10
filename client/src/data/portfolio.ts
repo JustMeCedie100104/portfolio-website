@@ -19,6 +19,12 @@ export const SITE = {
   portraitImageUrl: "/images/HeroSec.jpg" as string | null,
 } as const;
 
+export const HERO_STATS = [
+  { num: "01", label: "Experience",  value: "1+ Year Experience"         },
+  { num: "02", label: "Status",      value: "Open to opportunities"      },
+  { num: "03", label: "Based In",    value: "Philippines — Remote Ready" },
+] as const;
+
 export const QUICK_INTRO = {
   title: "About Me",
   tagline: "Designer who codes. Engineer who designs. A Person who adapts to anything.",
@@ -88,7 +94,12 @@ export interface ProjectItem {
   featured: boolean;
   githubUrl?: string;
   liveUrl?: string;
-  imageGradient: string;
+  // ─── Project image ─────────────────────────────────────────
+  // Drop screenshot at: client/public/images/projects/<filename>
+  // Set imageUrl to:    "/images/projects/your-image.png"
+  // Leave as null to use the gradient fallback instead.
+  imageUrl?: string | null;
+  imageGradient: string;  // fallback gradient when imageUrl is null
 }
 
 export const PROJECTS: ProjectItem[] = [
@@ -102,6 +113,8 @@ export const PROJECTS: ProjectItem[] = [
     category: "fullstack",
     featured: false,
     githubUrl: "https://github.com",
+    // imageUrl: "/images/projects/stock-n-stack.png",
+    imageUrl: null,
     imageGradient: "linear-gradient(135deg, #1a2a4a 0%, #4f8ef7 100%)",
   },
   {
@@ -114,6 +127,8 @@ export const PROJECTS: ProjectItem[] = [
     category: "fullstack",
     featured: true,
     githubUrl: "https://github.com",
+    // imageUrl: "/images/projects/task-manager.png",
+    imageUrl: null,
     imageGradient: "linear-gradient(135deg, #2a1a3a 0%, #a855f7 100%)",
   },
   {
@@ -126,6 +141,8 @@ export const PROJECTS: ProjectItem[] = [
     category: "backend",
     featured: true,
     githubUrl: "https://github.com",
+    // imageUrl: "/images/projects/portfolio-cms.png",
+    imageUrl: null,
     imageGradient: "linear-gradient(135deg, #1a3a2a 0%, #22c55e 100%)",
   },
   {
@@ -136,8 +153,10 @@ export const PROJECTS: ProjectItem[] = [
       "Component library with tokens, documentation, and Figma integration.",
     techStack: ["React", "Tailwind", "Figma"],
     category: "uiux",
-    featured: false,
+    featured: true,
     githubUrl: "https://github.com",
+    // imageUrl: "/images/projects/design-system.png",
+    imageUrl: null,
     imageGradient: "linear-gradient(135deg, #3a2a1a 0%, #f59e0b 100%)",
   },
 ];
@@ -145,37 +164,39 @@ export const PROJECTS: ProjectItem[] = [
 export const ACHIEVEMENTS = [
   {
     id: "1",
-    title: "Responsive Web Design",
-    issuer: "freeCodeCamp",
+    title: "4x Deans Lister",
+    issuer: "Arellano University",
+    // Drop certificate image at: client/public/images/achievements/deans-lister.jpg
+    // Then set imageUrl to:       "/images/achievements/deans-lister.jpg"
+    imageUrl: null as string | null,
     gradient: "linear-gradient(160deg, #0f3460 0%, #4f8ef7 100%)",
   },
   {
     id: "2",
-    title: "React Certification",
-    issuer: "Meta",
+    title: "IBM UI UX Certificate",
+    issuer: "IBM SkillsBuild",
+    // imageUrl: "/images/achievements/ibm-uiux.jpg",
+    imageUrl: null as string | null,
     gradient: "linear-gradient(160deg, #1a1a2e 0%, #61dafb 100%)",
   },
   {
     id: "3",
     title: "Academic Excellence",
     issuer: "University Award",
+    // imageUrl: "/images/achievements/academic-excellence.jpg",
+    imageUrl: null as string | null,
     gradient: "linear-gradient(160deg, #2d1b4e 0%, #c084fc 100%)",
   },
-  {
-    id: "4",
-    title: "JavaScript Algorithms",
-    issuer: "freeCodeCamp",
-    gradient: "linear-gradient(160deg, #1a2e1a 0%, #facc15 100%)",
-  },
-
 ] as const;
 
 export const JOURNEY = [ 
-  { year: "2022", title: "Journey Begins", description: "Created my first responsive website at Senior High." },
-  { year: "2023", title: "1st Road", description: "1st Year With an Experience since Senior High." },
-  { year: "2024", title: "2nd Coming", description: "2nd Year Become much more difficult to attain, but every struggle has been overcome." },
-  { year: "2025", title: "3rd Principles of Study", description: "Ready for Everything, Software Engineering Defense has been defended" },
-  { year: "2026", title: "OJT", description: "Experienced what tech jobs in real world." },
+  { year: "2004", title: "Birth of Cedie Salinas", description: "Cedie Salinas was born in the Year of 2004" },
+  { year: "2009 - 2010", title: "Kinder", description: "When I was in kinder, I was already competing with other high ranking students and participating in folk dance and live storytelling on stage." },
+  { year: "2011 - 2017", title: "Elementary Days", description: "It was the year of my highs and lows, but every struggle has been overcome." },
+  { year: "2017 - 2021", title: "Junior High", description: "Junior high can be sometimes difficult to obtain your things of interest, this era toughen me up and overcome everything." },
+  { year: "2022 - 2023", title: "Senior Years", description: "Ready for Everything, First taste of thesis is quite the experience." },
+  { year: "2023 - 2025", title: "College 1-3 Years", description: "Became memorable as it nourishes my knowledge in hardcoding and web creation." },
+  { year: "2026", title: "OJT", description: "Experienced how Web development can be fully develop, and how proper researching needed to be crucial " },
 ] as const;
 
 export const WHAT_I_DO = [
@@ -204,14 +225,54 @@ export const EXPERIENCE = [
   },
 ] as const;
 
-export const EDUCATION = {
-  degree: "Bachelor of Science in Computer Science",
-  school: "Arellano University - Jose Abad Santos Campus",
-  program: "Computer Science",
-  year: "2022 – 2027",
-  courses: ["Data Structures", "Web Development", "Database Systems"],
-  achievements: ["Dean's Lister",]
-} as const;
+export interface EducationItem {
+  id: string;
+  degree: string;
+  school: string;
+  program: string;
+  year: string;
+  courses: string[];
+  achievements: string[];
+}
+
+export const EDUCATION: EducationItem[] = [
+  {
+    id: "1",
+    degree: "Bachelor of Science in Computer Science",
+    school: "Arellano University - Jose Abad Santos Campus",
+    program: "Computer Science",
+    year: "2023 – Present",
+    courses: ["Data Structures", "Web Development", "Database Systems"],
+    achievements: ["Dean's Lister"],
+  },
+  {
+    id: "2",
+    degree: "Senior High School",
+    school: "Arellano University - Jose Abad Santos Campus",
+    program: "ICT - Information and Communication Technology",
+    year: "2021 – 2023",
+    courses: ["Computer Programming", "Animation and Editing"],
+    achievements: ["With High Honors"],
+  },
+  {
+    id: "3",
+    degree: "Junior High School",
+    school: "Pasay City East High School",
+    program: "Education High School Curriculum",
+    year: "2017 – 2021",
+    courses: ["Data Structures", "Web Development", "Database Systems"],
+    achievements: ["Top Notcher of Every Grade"],
+  },
+  {
+    id: "4",
+    degree: "Elementary",
+    school: "Timoteo Paez Elementary School",
+    program: "Elementary Curriculum",
+    year: "2011 – 2017",
+    courses: ["None"],
+    achievements: ["Top Notcher of Every Grade"],
+  },
+];
 
 export const NAV_LINKS = [
   { to: "/", label: "Home" },

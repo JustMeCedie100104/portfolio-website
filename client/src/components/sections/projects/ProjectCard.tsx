@@ -32,10 +32,17 @@ export function ProjectCard({ project }: ProjectCardProps) {
       {/* ── Image / gradient banner ── */}
       <div
         className="pcard__visual"
-        style={{ background: project.imageGradient }}
+        style={{ background: project.imageUrl ? undefined : project.imageGradient }}
         role="img"
         aria-label={`${project.title} preview`}
       >
+        {project.imageUrl && (
+          <img
+            src={project.imageUrl}
+            alt={`${project.title} preview`}
+            className="pcard__visual-img"
+          />
+        )}
         {/* Category pill */}
         <span className="pcard__category">{project.category}</span>
       </div>
