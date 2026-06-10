@@ -117,8 +117,20 @@ export function AchievementHighlightsSection() {
                 {/* Gradient face */}
                 <div
                   className="cf2__face"
-                  style={{ background: item.gradient }}
+                  style={{ background: item.imageUrl ? undefined : item.gradient }}
                 >
+                  {/* Certificate image if provided */}
+                  {item.imageUrl && (
+                    <img
+                      src={item.imageUrl}
+                      alt={item.title}
+                      style={{
+                        position: "absolute", inset: 0,
+                        width: "100%", height: "100%",
+                        objectFit: "cover", borderRadius: "inherit",
+                      }}
+                    />
+                  )}
                   {/* Gloss */}
                   <div className="cf2__gloss" aria-hidden="true" />
 
@@ -132,7 +144,7 @@ export function AchievementHighlightsSection() {
                 {/* Reflection strip */}
                 <div
                   className="cf2__reflection"
-                  style={{ background: item.gradient }}
+                  style={{ background: item.imageUrl ? "rgba(0,0,0,0.4)" : item.gradient }}
                   aria-hidden="true"
                 />
               </article>

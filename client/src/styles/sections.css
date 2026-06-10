@@ -1099,6 +1099,15 @@
   transition: filter 0.3s var(--ease-out);
 }
 
+.pcard__visual-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 .pcard:hover .pcard__visual {
   filter: brightness(1.08);
 }

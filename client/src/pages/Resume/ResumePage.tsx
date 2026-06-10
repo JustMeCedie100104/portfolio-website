@@ -49,10 +49,12 @@ export function ResumePage() {
 
           <section style={{ marginBottom: "var(--space-8)" }}>
             <h3 className="section__label">Education</h3>
-            <div style={{ marginTop: "var(--space-4)" }}>
-              <p className="why-card__title">{EDUCATION.degree}</p>
-              <p className="why-card__desc">{EDUCATION.school}, {EDUCATION.year}</p>
-            </div>
+            {EDUCATION.map((edu) => (
+              <div key={edu.id} style={{ marginTop: "var(--space-4)" }}>
+                <p className="why-card__title">{edu.degree}</p>
+                <p className="why-card__desc">{edu.school}, {edu.year}</p>
+              </div>
+            ))}
           </section>
 
           <section>
